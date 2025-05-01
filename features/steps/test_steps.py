@@ -3,12 +3,7 @@ from playwright.sync_api import sync_playwright, expect
 
 @given("att jag har öppnat boksidan")
 def step_given_open_page(context):
-    playwright = sync_playwright().start()
-    browser = playwright.chromium.launch(headless=False)
-    page = browser.new_page()
-    page.goto("https://tap-ht24-testverktyg.github.io/exam-template/")
-    context.browser = browser
-    context.page = page
+    context.page.goto("https://tap-ht24-testverktyg.github.io/exam-template/")
 
 @when('jag klickar på "Lägg till bok" och fyller i titel och författare')
 def step_when_fill_form(context):
@@ -29,4 +24,18 @@ def step_then_verify_book(context):
     katalog_tab.click()
     page.wait_for_timeout(500)  # väntar 0.5 sekunder för att säkerställa uppdatering
     expect(page.get_by_text("Min Testbok")).to_be_visible()
-    context.browser.close()
+
+
+@when("jag klickar på boktiteln i katalogen")
+def step_when_click_book(context):
+    page = context.page
+    page.get_by_test_id("star-Kaffekokaren som visste för mycket").click()
+
+@then("ska boken visas i Min lista")
+def step_then_in_favorites(context):
+    page = context.page
+    mina_bocker_tab = page.get_by_test_id("favorites")
+    mina_bocker_tab.wait_for(state="visible")
+    mina_bocker_tab.click()
+    page.wait_for_timeout(500)
+    expect(page.get_by_text("Kaffekokaren som visste för mycket")).to_be_visible()

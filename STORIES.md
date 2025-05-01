@@ -20,3 +20,18 @@ Testscenarier:
 5. Klicka på "Lägg till ny bok".
 6. Klicka på fliken "Katalog".
 7. Kontrollera att boken "Min Testbok" visas i listan.
+
+[U3] Som användare vill jag kunna lägga till en bok i "Min lista" genom att klicka på titeln i katalogen,
+så att jag kan spara mina favoriter.
+
+Acceptanskriterier:
+[A3.1] När jag klickar på en bok i katalogen, ska boken läggas till i "Mina böcker".
+
+Testscenarier:
+[T2]
+1. Lägg till en bok (om ingen redan finns).
+2. Gå till fliken "Katalog".
+3. Klicka på bokens titel.
+4. Gå till fliken "Mina böcker".
+5. Kontrollera att boken visas i listan.
+
