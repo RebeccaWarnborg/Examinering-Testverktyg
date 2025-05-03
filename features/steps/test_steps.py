@@ -1,5 +1,6 @@
 from behave import given, when, then
 from playwright.sync_api import sync_playwright, expect
+import time
 
 @given("att jag har öppnat boksidan")
 def step_given_open_page(context):
@@ -39,3 +40,26 @@ def step_then_in_favorites(context):
     mina_bocker_tab.click()
     page.wait_for_timeout(500)
     expect(page.get_by_text("Kaffekokaren som visste för mycket")).to_be_visible()
+
+# Ej godkänd kod!
+@when("jag avmarkerar hjärtat på boktiteln i katalogen")
+def step_when_unfavorite_book(context):
+    import time
+    page = context.page
+    katalog_tab = page.get_by_test_id("catalog")
+    while not katalog_tab.is_enabled():
+        time.sleep(0.1)
+    katalog_tab.click()
+    heart = page.locator(".book", has_text="Kaffekokaren som visste för mycket").locator(".star.selected")
+    heart.wait_for(state="visible")
+    heart.click()
+    heart.wait_for(state="detached")
+
+@then("ska boken inte längre visas i Min lista")
+def step_then_book_removed_from_favorites(context):
+    page = context.page
+    favorites_tab = page.get_by_test_id("favorites")
+    favorites_tab.wait_for(state="visible")
+    favorites_tab.click()
+    book_list = page.get_by_test_id("book-list")
+    expect(book_list.get_by_text("Kaffekokaren som visste för mycket")).not_to_be_visible()

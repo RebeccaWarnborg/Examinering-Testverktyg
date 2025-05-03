@@ -10,3 +10,7 @@ Scenario: Användare kan lägga till bok i Min lista
   When jag klickar på boktiteln i katalogen
   Then ska boken visas i Min lista
 
+Scenario: Användare kan ta bort en bok från Min lista
+  Given att jag har öppnat boksidan
+  When jag avmarkerar hjärtat på boktiteln i katalogen
+  Then ska boken inte längre visas i Min lista
