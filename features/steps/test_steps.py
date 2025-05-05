@@ -40,7 +40,7 @@ def step_then_in_favorites(context):
     page.wait_for_timeout(500)
     expect(page.get_by_text("Kaffekokaren som visste för mycket")).to_be_visible()
 
-# Ej godkänt test!
+
 @when("jag avmarkerar hjärtat på boktiteln i katalogen")
 def step_when_unfavorite_book(context):
     page = context.page
