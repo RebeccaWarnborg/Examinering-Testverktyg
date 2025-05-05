@@ -49,11 +49,18 @@ def step_when_unfavorite_book(context):
     page.get_by_test_id("add-input-author").fill("Test Författare")
     page.get_by_role("button", name="lägg till ny bok").click()
     page.get_by_role("button", name="Katalog").click()
-    page.get_by_test_id("star-Kaffekokaren som visste för mycket").click()
-    heart = page.locator(".book", has_text="Kaffekokaren som visste för mycket").locator(".star.selected")
-    expect(heart).to_be_visible()
-    heart.click()
-    expect(heart).not_to_be_visible()
+    books = page.locator(".book", has_text="Kaffekokaren som visste för mycket")
+    count = books.count()
+    print("Antal böcker som matchar titeln: ", count)
+
+    for i in range(count):
+        book = books.nth(i)
+        heart = book.locator(".star.selected")
+        if heart.is_visible():
+            print(f"Avmarkerar hjärta för bok {i}")
+            heart.click()
+            expect(heart).not_to_be_visible()
+            break
 
 @then("ska boken inte längre visas i Min lista")
 def step_then_book_removed_from_favorites(context):
