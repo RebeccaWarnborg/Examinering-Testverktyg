@@ -23,6 +23,7 @@ så att jag kan ångra favorisering.
 **[A4.1]** När jag klickar igen på hjärtat i katalogen, ska boken tas bort från "Mina böcker".
 
 Testscenarier:
+
 [T1]
 1. Gå till sidan.
 2. Klicka på "Lägg till bok".
