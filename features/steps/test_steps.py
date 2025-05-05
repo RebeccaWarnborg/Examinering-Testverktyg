@@ -1,6 +1,5 @@
 from behave import given, when, then
 from playwright.sync_api import sync_playwright, expect
-import time
 
 @given("att jag har öppnat boksidan")
 def step_given_open_page(context):
@@ -44,22 +43,23 @@ def step_then_in_favorites(context):
 # Ej godkänt test!
 @when("jag avmarkerar hjärtat på boktiteln i katalogen")
 def step_when_unfavorite_book(context):
-    import time
     page = context.page
-    katalog_tab = page.get_by_test_id("catalog")
-    while not katalog_tab.is_enabled():
-        time.sleep(0.1)
-    katalog_tab.click()
+    page.get_by_role("button", name="Lägg till bok").click()
+    page.get_by_test_id("add-input-title").fill("Kaffekokaren som visste för mycket")
+    page.get_by_test_id("add-input-author").fill("Test Författare")
+    page.get_by_role("button", name="lägg till ny bok").click()
+    page.get_by_role("button", name="Katalog").click()
+    page.get_by_test_id("star-Kaffekokaren som visste för mycket").click()
     heart = page.locator(".book", has_text="Kaffekokaren som visste för mycket").locator(".star.selected")
-    heart.wait_for(state="visible")
+    expect(heart).to_be_visible()
     heart.click()
-    heart.wait_for(state="detached")
+    expect(heart).not_to_be_visible()
 
 @then("ska boken inte längre visas i Min lista")
 def step_then_book_removed_from_favorites(context):
     page = context.page
     favorites_tab = page.get_by_test_id("favorites")
-    favorites_tab.wait_for(state="visible")
+    expect(favorites_tab).to_be_visible()
     favorites_tab.click()
     book_list = page.get_by_test_id("book-list")
     expect(book_list.get_by_text("Kaffekokaren som visste för mycket")).not_to_be_visible()
